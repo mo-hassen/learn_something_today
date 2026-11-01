@@ -10,16 +10,16 @@
 schema: "1"
 
 # Your working title. You may change it later; keep this file up to date.
-title: "Amharic Flashcards"
+title: "Learn Something Today"
 
 # One sentence: "An app that helps [users] to [do what] so that [benefit]."
-summary: "An app that helps learners to practise Amharic vocabulary with spaced-repetition flashcards so that they remember words for longer."
+summary: "An app that helps curious readers to discover a daily featured article or 'On This Day' fact from Amharic (or English) Wikipedia, read it offline, and save favourites synced across devices so that they learn something new every day."
 
 members:
-  - name: "Mohammed Hassen"              # full name, as in the student register
-    student_id: "UGR/2340/16"         # exactly as on your student ID card
+  - name: "Mohammed Hassen" # full name, as in the student register
+    student_id: "UGR/2340/16" # exactly as on your student ID card
     email: "mohammedhassen1829@gmail.com" # an address you read every day
-    github: "mo-hassen"            # your GitHub username, without @
+    github: "mo-hassen" # your GitHub username, without @
   - name: "Sead Bushra"
     student_id: "UGR/6932/16"
     email: "seadbushra44@gmail.com"
