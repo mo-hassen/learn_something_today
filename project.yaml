@@ -1,0 +1,34 @@
+# Copy this file to the root of your group's repository as project.yaml.
+# The course reads it with a program, so:
+# - keep every key exactly as it is spelled here; change only the values;
+# - put every value in double quotes;
+# - indent with spaces, never with tabs;
+# - list all four members, each starting with "- name:".
+# Check that GitHub shows the file without an error before you submit the
+# link to your repository.
+
+schema: "1"
+
+# Your working title. You may change it later; keep this file up to date.
+title: "Learn Something Today"
+
+# One sentence: "An app that helps [users] to [do what] so that [benefit]."
+summary: "An app that helps curious readers to discover a daily featured article or 'On This Day' fact from Amharic (or English) Wikipedia, read it offline, and save favourites synced across devices so that they learn something new every day."
+
+members:
+  - name: "Mohammed Hassen"
+    student_id: "UGR/2340/16"
+    email: "mohammedhassen1829@gmail.com"
+    github: "mo-hassen"
+  - name: "Sead Bushra"
+    student_id: "UGR/6932/16"
+    email: "seadbushra44@gmail.com"
+    github: "Sead44"
+  - name: "Nahom Solomon"
+    student_id: "UGR/3155/16"
+    email: "gebre6298@gmail.com"
+    github: "nahoom-sh"
+  - name: "Melkamu Gatew"
+    student_id: "UGR/1687/15"
+    email: "melkamugatew1@gmail.com"
+    github: "mgmelk"
