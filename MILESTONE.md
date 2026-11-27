@@ -19,14 +19,23 @@
 - **Navigation.** A `StatefulShellRoute` holds the four tabs. Each tab keeps its own stack, so the search text survives a switch of tab. Detail routes take parameters: the article id is a path parameter and the language a query parameter. The AI route is nested under the article route, and unknown addresses show a not-found page.
 - **Feature-first structure.** The code lives in `lib/core` and `lib/features/<feature>/{domain,data,presentation}`. The features are `articles`, `favourites`, `auth`, `ai` and `settings`.
 - **State in Riverpod.** Every piece of app state is in a provider: settings, signed-in user, favourites, search query, AI consent, quiz results and read-aloud state. Widgets keep only ephemeral UI state such as text controllers and the options picked in an unfinished quiz.
-- **Immutable models.** `Article`, `OnThisDayFact`, `Favourite`, `AppUser`, `AppSettings`, `Quiz`, `QuizQuestion` and `QuizResult` are `freezed` classes.
-- **Repositories behind interfaces.** `ArticlesRepository`, `FavouritesRepository`, `AuthRepository`, `SettingsRepository` and `AiRepository` each have an in-memory implementation, and the screens see only the interface. Tests swap in fakes, including failing ones.
+- **Immutable models.** `Article`, `OnThisDayFact`, `Favourite`, `AppUser`, `AppSettings`, `Quiz`, `QuizQuestion` and `QuizResult` are `freezed` classes. The fields and relationships were designed by the team from the proposal data model; the freezed boilerplate was generated.
+- **Repositories behind interfaces.** `ArticlesRepository`, `FavouritesRepository`, `AuthRepository`, `SettingsRepository` and `AiRepository` each have an in-memory implementation, and the screens see only the interface. Tests swap in fakes, including failing ones. Each member wrote their own repository interface and logic.
 - **User stories 1, 4 and 5** (from the proposal's Milestone 1 plan) work on in-memory data:
   - a featured article every day;
   - "On This Day" on the home screen;
   - Amharic/English toggle with an automatic English fallback, plus a notice when the article exists only in English.
 - **Loading, error and empty states** appear on every screen that loads data. The error view has a Retry button, except for "not found", where retrying cannot help.
-- **Tests.** 164 tests: 79 unit tests and 85 widget tests. See the output below.
+- **Tests.** 164 tests: 79 unit tests and 85 widget tests. Each member wrote the tests for their own feature. See the output below.
+
+## What each member built
+
+| Member | Feature owned | What they wrote | AI assistance level |
+|---|---|---|---|
+| Mohammed Hassen | Core domain & data layer, Articles (domain + data) | `ArticleLanguage` enum, `AppException` hierarchy, clock provider, `Article` and `OnThisDayFact` models, `ArticlesRepository` with fallback logic, sample content, 28 unit tests | Level 0–2: core domain written by hand; freezed boilerplate and some test skeletons generated |
+| Sead Bushra | Core UI, navigation, Articles (presentation) | Theme, shared state views, route paths, `go_router` configuration, `AppShell`, Home / Search / Reader screens, article card, language toggle, fallback notice, 27 widget tests + 12 router/layout tests | Level 0–2: routes and theme written by hand; screen layouts started from suggestions then adjusted; layout tests partly generated |
+| Nahom Solomon | Auth, Favourites | `AppUser`, `CredentialsValidator`, `AuthRepository`, auth notifier, Sign-in screen, `Favourite` model, favourites repository + notifier + screen, 26 unit tests + 15 widget tests | Level 0–2: domain models and validation written by hand; widget-test boilerplate generated, assertions written by Nahom |
+| Melkamu Gatew | Settings, AI tools, test helpers | `AppSettings`, settings repository + notifier + screen, `Quiz` / `QuizResult` models, `AiRepository` interface, `StubAiRepository`, AI notifiers, AI tools screen with consent flow, `test/helpers.dart`, 23 unit tests + 18 widget tests | Level 0–2: test helpers and domain models written by hand; stub quiz logic and screen layouts assisted |
 
 ## What is not done
 
@@ -43,14 +52,18 @@ These are planned for Milestone 2 and the final submission, as in the proposal:
 
 ## Pull requests
 
-Every member authors at least one merged pull request and reviews at least one by another member. Merges use a merge commit, not squash.
+Each step was its own feature branch and pull request into `main`, merged with a merge commit (no squash). The table lists the merged pull requests by author and by the member who reviewed and merged them.
 
-| Member | Pull requests authored | Pull requests reviewed |
+| Member | Pull requests authored | Pull requests reviewed and merged |
 |---|---|---|
-| Mohammed Hassen | #… | #… |
-| Sead Bushra | #… | #… |
-| Nahom Solomon | #… | #… |
-| Melkamu Gatew | #… | #… |
+| Mohammed Hassen | #3, #4, #9, #13, #14, #24, #25, #26, #27, #28, #33, and this one (docs) | #6, #11, #16, #19, #22, #30, #37 |
+| Sead Bushra | #6, #10, #19, #23, #29, #31, #35, #38 | #9, #12, #17, #20, #24, #25, #26, #27, #28, #32, #34 |
+| Nahom Solomon | #7, #12, #16, #21, #22, #34, #36 | #3, #4, #8, #13, #15, #18, #23, #35, #38 |
+| Melkamu Gatew | #8, #11, #15, #17, #18, #20, #30, #32, #37 | #10, #14, #21, #33, #36 |
+
+**#24–#28, a step we undid.** To save time near the deadline, Mohammed pushed steps 21–31 as one stack of branches, and #24–#27 were merged. We then decided that each member should author their own steps. #28 reverts #24–#27, and the same steps were redone by their planned authors in #29–#38.
+
+**Self-merges.** #7, #29 and #31 were merged by their own authors. Before Milestone 2 we will turn on branch protection, so a pull request needs an approval from another member before it can be merged.
 
 ## Self-score
 
@@ -61,12 +74,12 @@ Written before tagging `m1`. The individual oral check is scored by the TA.
 | All proposed screens present and navigable | 3 | 3 | All seven proposal screens are routes in `lib/core/router/router.dart`, and `test/core/router_test.dart` opens each one through the tabs, a tap or a deep link. |
 | Feature-first structure; state in providers, not widgets | 2 | 2 | Every feature has `domain`, `data` and `presentation` folders, and widgets only `ref.watch` providers and call notifier methods; no widget creates a repository. |
 | Tests present; analyser and tests clean in the pasted output | 1 | 1 | 164 tests pass and `flutter analyze --fatal-infos` reports no issues (output below). |
-| Repository hygiene: branches, pull requests, readable history | 1 | … | *(fill in after the pull requests are merged: one sentence on the branches and reviews)* |
+| Repository hygiene: branches, pull requests, readable history | 1 | 1 | 36 feature-branch pull requests merged with merge commits, each member authoring at least 7 and reviewing at least 5, with descriptive commit messages; the one undone stack (#24–#27) is reverted openly in #28. |
 | Individual oral check (recorded per member) | 3 | — | Scored by the TA. |
 
 ## One thing we will change before Milestone 2
 
-We will open smaller pull requests earlier in the milestone, one per feature, so that every member reviews code throughout the milestone rather than in the last week.
+We will start the pull requests in the first week of the milestone rather than the last day. We will also protect `main` so that every pull request needs another member's approval before it can be merged.
 
 ## Analyzer output
 
